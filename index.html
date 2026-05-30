@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>K-Map Solver / කාර්නෝ සිතියම් විසඳුම්</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Language Toggle -->
+  <div id="lang-bar">
+    <button id="btn-en" class="lang-btn active" onclick="setLang('en')">English</button>
+    <button id="btn-si" class="lang-btn" onclick="setLang('si')">සිංහල</button>
+    <span id="lang-label">Language / භාෂාව</span>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo-block">
+        <div class="logo-icon">K</div>
+        <div>
+          <h1 id="app-title">K-Map Solver</h1>
+          <p id="app-subtitle">Interactive Karnaugh Map Simplifier</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Left Column: Input + Rules -->
+    <aside id="left-panel">
+      <!-- Input Section -->
+      <section class="card" id="input-card">
+        <h2 id="input-heading">Boolean Expression Input</h2>
+        <p class="hint" id="input-hint">Enter a Sum of Products (SOP) expression using variables A, B, C, D.</p>
+
+        <div class="var-select-row">
+          <label id="label-vars">Variables:</label>
+          <div class="var-btns">
+            <button class="var-btn" data-v="2" onclick="setVarCount(2)">2</button>
+            <button class="var-btn active" data-v="3" onclick="setVarCount(3)">3</button>
+            <button class="var-btn" data-v="4" onclick="setVarCount(4)">4</button>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <input type="text" id="expr-input" placeholder="e.g. A'BC + AB'C + ABC" autocomplete="off" spellcheck="false"/>
+          <div class="vkeyboard" id="vkb">
+            <span class="vk-label" id="vk-label">Insert:</span>
+            <div class="vk-btns" id="vk-btns">
+              <!-- populated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button class="btn-primary" id="btn-solve" onclick="solve()">
+            <span id="btn-solve-text">Solve & Plot</span>
+          </button>
+          <button class="btn-secondary" id="btn-reset" onclick="resetAll()">
+            <span id="btn-reset-text">Reset</span>
+          </button>
+        </div>
+
+        <div id="input-error" class="error-msg" style="display:none"></div>
+
+        <!-- Example expressions -->
+        <div class="examples-block">
+          <span class="ex-label" id="ex-label">Examples:</span>
+          <div id="examples-list">
+            <!-- populated by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Rules Panel -->
+      <section class="card" id="rules-card">
+        <h2 id="rules-heading">📋 K-Map Rules</h2>
+        <ul id="rules-list">
+          <!-- populated by JS -->
+        </ul>
+      </section>
+    </aside>
+
+    <!-- Right Column: K-Map + Steps -->
+    <div id="right-panel">
+      <!-- K-Map display -->
+      <section class="card" id="kmap-card" style="display:none">
+        <div class="kmap-header-row">
+          <h2 id="kmap-heading">Karnaugh Map</h2>
+          <div id="step-counter"></div>
+        </div>
+        <div id="kmap-container">
+          <!-- K-map table rendered here by JS -->
+        </div>
+        <div id="group-legend" class="group-legend"></div>
+      </section>
+
+      <!-- Step Navigator -->
+      <section class="card" id="steps-card" style="display:none">
+        <h2 id="steps-heading">Step-by-Step Solution</h2>
+        <div id="steps-container">
+          <!-- steps rendered here -->
+        </div>
+        <div class="step-nav-row">
+          <button class="btn-step" id="btn-prev" onclick="prevStep()" disabled>
+            ← <span id="prev-text">Previous</span>
+          </button>
+          <div id="step-dots"></div>
+          <button class="btn-step btn-step-next" id="btn-next" onclick="nextStep()">
+            <span id="next-text">Next Step</span> →
+          </button>
+        </div>
+      </section>
+
+      <!-- Final Answer -->
+      <section class="card" id="answer-card" style="display:none">
+        <h2 id="answer-heading">✅ Simplified Expression</h2>
+        <div id="answer-display"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p id="footer-text">Built for ICT students · Karnaugh Map Simplifier · Supports Sinhala & English</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
